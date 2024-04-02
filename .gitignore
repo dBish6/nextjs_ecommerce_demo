@@ -37,3 +37,7 @@ next-env.d.ts
 
 .vscode
 .env*
+/products
+/public/products
+
+dev.db

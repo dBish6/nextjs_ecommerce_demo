@@ -13,10 +13,10 @@ datasource db {
 model Product {
   id                    String                 @id @default(uuid())
   name                  String
+  description           String
   price_cents           Int
   file_path             String
-  img_path             String
-  description           String
+  img_path              String
   available             Boolean                @default(true)
   created_at            DateTime               @default(now())
   updated_at            DateTime               @updatedAt

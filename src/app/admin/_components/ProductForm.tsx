@@ -1,57 +1,133 @@
 "use client";
 
+import { Product } from "@prisma/client";
+
 import { useState } from "react";
+import { useFormState, useFormStatus } from "react-dom";
+import Image from "next/image";
+
+import { formatCurrency } from "@utils/formatters";
+
+import { addProduct, editProduct } from "../_actions/products";
 
 import { Label, Input, Textarea } from "@components/form";
 import { Button } from "@components/Button";
 
-import { formatCurrency } from "@utils/formatters";
+const ProductForm: React.FC<{ product?: Product | null }> = ({ product }) => {
+  const [priceCents, setPriceCents] = useState<number | undefined>(
+    product?.price_cents
+  );
 
-import { addProducts } from "../_actions/products";
-
-const ProductForm: React.FC = () => {
-  const [priceCents, setPriceCents] = useState<number>();
+  const [error, action] = useFormState(
+      product == null ? addProduct : editProduct.bind(null, product.id),
+      {}
+    ),
+    { pending } = useFormStatus();
 
   return (
-    <form action={(e) => addProducts(e)} className="space-y-8">
-      <div className="space-y-2">
-        <Label htmlFor="name">Name</Label>
-        <Input id="name" name="name" required />
-      </div>
+    <form action={action} className="space-y-8" autoComplete="off" noValidate>
+      <FormInput
+        label="Name"
+        id="name"
+        name="name"
+        error={error?.name}
+        defaultValue={product?.name}
+      />
 
-      <div className="space-y-2">
-        <Label htmlFor="priceCents">Price in Cents</Label>
-        <Input
-          type="number"
-          id="priceCents"
-          name="priceCents"
-          required
-          value={priceCents}
-          onChange={(e) => setPriceCents(Number(e.target.value) || undefined)}
-        />
+      <FormInput
+        label="Price in Cents"
+        id="priceCents"
+        name="priceCents"
+        type="number"
+        error={error?.priceCents}
+        value={priceCents}
+        onChange={(e) => setPriceCents(Number(e.target.value) || undefined)}
+      >
         <div className="text-muted-foreground">
-          {formatCurrency(priceCents || 0 / 100)}
+          {formatCurrency((priceCents || 0) / 100)}
         </div>
-      </div>
+      </FormInput>
 
-      <div className="space-y-2">
-        <Label htmlFor="description">Description</Label>
-        <Textarea id="description" name="description" required />
-      </div>
+      <FormInput
+        label="Description"
+        id="description"
+        name="description"
+        error={error?.description}
+        defaultValue={product?.description}
+      />
 
-      <div className="space-y-2">
-        <Label htmlFor="file">File</Label>
-        <Input type="file" id="file" name="file" required />
-      </div>
+      <FormInput
+        label="File"
+        id="file"
+        name="file"
+        type="file"
+        error={error?.file}
+        required={product == null}
+      >
+        {product != null && (
+          <div className="text-muted-foreground">
+            {product.file_path.split("products/")[1]}
+          </div>
+        )}
+      </FormInput>
 
-      <div className="space-y-2">
-        <Label htmlFor="image">Image</Label>
-        <Input type="file" id="image" name="image" required />
-      </div>
+      <FormInput
+        label="Image"
+        id="image"
+        name="image"
+        type="file"
+        error={error?.file}
+        required={product == null}
+      >
+        {product != null && (
+          <Image
+            src={product.img_path}
+            height="400"
+            width="400"
+            alt="Product Image"
+          />
+        )}
+      </FormInput>
 
-      <Button type="submit">Save</Button>
+      <Button type="submit" disabled={pending}>
+        {pending ? "Saving..." : "Save"}
+      </Button>
     </form>
   );
 };
-
 export default ProductForm;
+
+const FormInput: React.FC<
+  React.PropsWithChildren<
+    {
+      label: string;
+      id: string;
+      name: string;
+      defaultValue?: string;
+      error?: string[];
+    } & React.ComponentProps<"input">
+  >
+> = ({ children, label, id, name, error, ...options }) => {
+  const InputType = name === "description" ? Textarea : Input,
+    Element = InputType as typeof Input;
+
+  return (
+    <div className="space-y-2">
+      <Label htmlFor={id}>{label}</Label>
+      <Element
+        aria-describedby="formError"
+        {...(error && { "aria-invalid": true })}
+        id={id}
+        name={name}
+        required
+        {...options}
+      />
+      {children}
+      {error && (
+        <span id="formError" className="text-xs font-medium text-destructive">
+          {error[0]}
+        </span>
+      )}
+    </div>
+  );
+};
