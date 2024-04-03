@@ -5,7 +5,7 @@ import db from "@model/db";
 
 import { formatCurrency, formatNumber } from "@utils/formatters";
 
-import Header from "../_components/Header";
+import Header from "@adminComponents/Header";
 import { Button } from "@components/Button";
 import {
   Table,
@@ -21,7 +21,7 @@ import {
   TooltipTrigger,
   TooltipContent,
 } from "@components/Tooltip";
-import ProductControls from "../_components/ProductControls";
+import ProductControls from "@adminComponents/ProductControls";
 
 const AdminProductsPage: React.FC = () => {
   return (

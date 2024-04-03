@@ -1,6 +1,6 @@
 import db from "@model/db";
-import Header from "../../../_components/Header";
-import ProductForm from "../../../_components/ProductForm";
+import Header from "@adminComponents/Header";
+import ProductForm from "@adminComponents/ProductForm";
 
 const EditProductPage: React.FC<{ params: { id: string } }> = async ({
   params: { id },

@@ -1,6 +1,6 @@
 "use client";
 
-import { Product } from "@prisma/client";
+import { type Product } from "@prisma/client";
 
 import { useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
@@ -8,7 +8,7 @@ import Image from "next/image";
 
 import { formatCurrency } from "@utils/formatters";
 
-import { addProduct, editProduct } from "../_actions/products";
+import { addProduct, editProduct } from "@adminActions/products";
 
 import { Label, Input, Textarea } from "@components/form";
 import { Button } from "@components/Button";

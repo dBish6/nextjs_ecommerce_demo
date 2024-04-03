@@ -5,7 +5,10 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { MoreVertical } from "lucide-react";
 
-import { toggleProductAvailability, deleteProduct } from "../_actions/products";
+import {
+  toggleProductAvailability,
+  deleteProduct,
+} from "@adminActions/products";
 
 import {
   DropdownMenu,

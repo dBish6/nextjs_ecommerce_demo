@@ -1,5 +1,5 @@
-import Header from "../../_components/Header";
-import ProductForm from "../../_components/ProductForm";
+import Header from "@adminComponents/Header";
+import ProductForm from "@adminComponents/ProductForm";
 
 const NewProductPage: React.FC = () => {
   return (

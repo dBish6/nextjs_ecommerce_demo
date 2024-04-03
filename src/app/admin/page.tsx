@@ -26,7 +26,6 @@ const getCustomerData = async () => {
     db.order.count(),
     db.order.aggregate({
       _sum: { total: true },
-      //   _count: true,
     }),
   ]);
 
@@ -76,7 +75,6 @@ const AdminDashboard: React.FC = async () => {
         {formatNumber(customerData.customerCount)}
       </DashboardCard>
 
-      {/* Total? */}
       <DashboardCard
         title="Stock"
         subtitle={`${formatNumber(stockData.notAvailableCount)} Not Available`}
@@ -98,9 +96,6 @@ export const DashboardCard: React.FC<
         <CardDescription>{subtitle}</CardDescription>
       </CardHeader>
       <CardContent>{children}</CardContent>
-      {/* <CardFooter>
-<p>Card Footer</p>
-</CardFooter> */}
     </Card>
   );
 };

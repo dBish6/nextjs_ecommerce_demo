@@ -3,18 +3,24 @@
 import { z } from "zod";
 import fs from "fs/promises";
 import { redirect, notFound } from "next/navigation";
+import { revalidatePath } from "next/cache";
 
 import db from "@model/db";
 
-import createProductFiles from "../_utils/createProductFiles";
+import createProductFiles from "@adminUtils/createProductFiles";
+
+const updateCaches = () => {
+  revalidatePath("/");
+  revalidatePath("/products");
+};
 
 const requiredMessage = "Required";
 
-const fileSchema = z.instanceof(File, { message: requiredMessage });
-const imageSchema = fileSchema.refine(
-  // FIXME: Formats.
-  (file) => file.size === 0 || file.type.startsWith("image/")
-);
+const fileSchema = z.instanceof(File, { message: requiredMessage }),
+  imageSchema = fileSchema.refine(
+    // FIXME: Formats.
+    (file) => file.size === 0 || file.type.startsWith("image/")
+  );
 
 const addProductSchema = z.object({
   name: z.string().min(1),
@@ -44,6 +50,7 @@ export const addProduct = async (prevState: unknown, formData: FormData) => {
       },
     });
 
+    updateCaches();
     redirect("/admin/products");
   } else {
     return notFound();
@@ -83,6 +90,7 @@ export const editProduct = async (
       },
     });
 
+    updateCaches();
     redirect("/admin/products");
   } else {
     return notFound();
@@ -98,6 +106,7 @@ export const deleteProduct = async (id: string) => {
     fs.unlink(`public${product.img_path}`),
   ]);
 
+  updateCaches();
   return product;
 };
 
@@ -111,5 +120,6 @@ export const toggleProductAvailability = async (
   });
   if (product == null) return notFound();
 
+  updateCaches();
   return product;
 };
