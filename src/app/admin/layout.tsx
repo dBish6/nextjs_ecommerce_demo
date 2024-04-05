@@ -9,7 +9,7 @@ const layout: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
       <Nav>
         <NavLink href="/admin">Dashboard</NavLink>
         <NavLink href="/admin/products">Products</NavLink>
-        <NavLink href="/admin/users">Customers</NavLink>
+        <NavLink href="/admin/customers">Customers</NavLink>
         <NavLink href="/admin/orders">Sales</NavLink>
       </Nav>
       <div className="container my-6">{children}</div>

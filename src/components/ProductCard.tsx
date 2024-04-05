@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { formatCurrency } from "@utils/formatters";
-import { createDownloadVerification } from "@actions/orders";
+import { createDownloadVerification } from "@customerActions/orders";
 
 import {
   Card,

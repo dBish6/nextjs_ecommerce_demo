@@ -18,8 +18,7 @@
       }
     ],
     "paths": {
-      // "@": ["./src"],
-      "@actions/*": ["./src/app/actions/*"],
+      "@customerActions/*": ["./src/app/(customer)/_actions/*"],
       "@adminActions/*": ["./src/app/admin/_actions/*"],
 
       "@components/*": ["./src/components/*"],
@@ -27,6 +26,8 @@
       "@customerComponents/*": ["./src/app/(customer)/_components/*"],
 
       "@customerConstants/*": ["./src/app/(customer)/_constants/*"],
+
+      "@email/*": ["./src/email/*"],
 
       "@model/*": ["./src/model/*"],
 

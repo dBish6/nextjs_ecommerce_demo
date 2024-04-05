@@ -9,16 +9,13 @@ import {
   CardContent,
 } from "@components/Card";
 
-const getSalesData = async () => {
-  const data = await db.order.aggregate({
-    _sum: { total: true },
-    _count: true,
-  });
+const getProductsData = async () => {
+  const [availableCount, notAvailableCount] = await Promise.all([
+    db.product.count({ where: { available: true } }),
+    db.product.count({ where: { available: false } }),
+  ]);
 
-  return {
-    amount: (data._sum.total || 0) / 1000,
-    numberOfSales: data._count,
-  };
+  return { availableCount, notAvailableCount };
 };
 
 const getCustomerData = async () => {
@@ -38,32 +35,35 @@ const getCustomerData = async () => {
   };
 };
 
-const getStockData = async () => {
-  const [availableCount, notAvailableCount] = await Promise.all([
-    db.product.count({ where: { available: true } }),
-    db.product.count({ where: { available: false } }),
-  ]);
+const getSalesData = async () => {
+  const data = await db.order.aggregate({
+    _sum: { total: true },
+    _count: true,
+  });
 
-  return { availableCount, notAvailableCount };
+  return {
+    amount: (data._sum.total || 0) / 100,
+    numberOfSales: data._count,
+  };
 };
 
 const AdminDashboard: React.FC = async () => {
-  const [salesData, customerData, stockData] = await Promise.all([
-      getSalesData(),
+  const [productsData, customerData, salesData] = await Promise.all([
+      getProductsData(),
       getCustomerData(),
-      getStockData(),
+      getSalesData(),
     ]),
     { amount, numberOfSales } = salesData;
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       <DashboardCard
-        title="Sales"
-        subtitle={`${formatNumber(numberOfSales)} Order${
-          numberOfSales === 1 ? "" : "s"
-        }`}
+        title="Products"
+        subtitle={`${formatNumber(
+          productsData.notAvailableCount
+        )} Not Available`}
       >
-        {formatCurrency(amount)}
+        {formatNumber(productsData.availableCount)} Available
       </DashboardCard>
 
       <DashboardCard
@@ -76,17 +76,19 @@ const AdminDashboard: React.FC = async () => {
       </DashboardCard>
 
       <DashboardCard
-        title="Stock"
-        subtitle={`${formatNumber(stockData.notAvailableCount)} Not Available`}
+        title="Sales"
+        subtitle={`${formatNumber(numberOfSales)} Order${
+          numberOfSales === 1 ? "" : "s"
+        }`}
       >
-        {formatNumber(stockData.availableCount)} Available
+        {formatCurrency(amount)}
       </DashboardCard>
     </div>
   );
 };
 export default AdminDashboard;
 
-export const DashboardCard: React.FC<
+const DashboardCard: React.FC<
   React.PropsWithChildren<{ title: string; subtitle: string }>
 > = ({ children, title, subtitle }) => {
   return (

@@ -1,9 +1,11 @@
 import Link from "next/link";
-import { CheckCircle2, XCircle } from "lucide-react";
+import { CheckCircle2, XCircle, MoreVertical } from "lucide-react";
 
 import db from "@model/db";
 
 import { formatCurrency, formatNumber } from "@utils/formatters";
+
+import { deleteProduct } from "@adminActions/products";
 
 import Header from "@adminComponents/Header";
 import { Button } from "@components/Button";
@@ -21,7 +23,17 @@ import {
   TooltipTrigger,
   TooltipContent,
 } from "@components/Tooltip";
-import ProductControls from "@adminComponents/ProductControls";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@components/DropdownMenu";
+import {
+  ActiveToggleDropdownItem,
+  DeleteDropdownItem,
+} from "@adminComponents/tableControls";
 
 const AdminProductsPage: React.FC = () => {
   return (
@@ -51,7 +63,6 @@ const ProductsTable = async () => {
     orderBy: { name: "asc" },
   });
 
-  // TODO: Data table.
   return (
     <Table>
       <TableHeader>
@@ -106,7 +117,40 @@ const ProductsTable = async () => {
               <TableCell>{formatNumber(product._count.orders)}</TableCell>
 
               <TableCell>
-                <ProductControls product={product} />
+                <DropdownMenu>
+                  <DropdownMenuTrigger>
+                    <span className="sr-only">Actions</span>
+                    <MoreVertical />
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuItem asChild>
+                      <a
+                        download
+                        href={`/admin/products/${product.id}/download`}
+                      >
+                        Download
+                      </a>
+                    </DropdownMenuItem>
+
+                    <DropdownMenuItem asChild>
+                      <Link href={`/admin/products/${product.id}/edit`}>
+                        Edit
+                      </Link>
+                    </DropdownMenuItem>
+
+                    <ActiveToggleDropdownItem
+                      id={product.id}
+                      available={product.available}
+                    />
+
+                    <DropdownMenuSeparator />
+                    <DeleteDropdownItem
+                      id={product.id}
+                      action={deleteProduct}
+                      disabled={product._count.orders > 0}
+                    />
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </TableCell>
             </TableRow>
           ))}

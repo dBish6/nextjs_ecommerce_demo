@@ -1,6 +1,6 @@
 "use server";
 
-import { Product } from "@prisma/client";
+import { type Product } from "@prisma/client";
 import fs from "fs/promises";
 
 const createProductFiles = async (
@@ -11,7 +11,7 @@ const createProductFiles = async (
     let filePath: string | undefined = product && product.file_path,
       imagePath: string | undefined = product && product.img_path;
 
-    // Adds the product page; check if the file exists because for update it's optional.
+    // Adds the product page; checks if the file exists because for update it's optional.
     if (data.file && data.file.size > 0) {
       product
         ? await fs.unlink(product.file_path)

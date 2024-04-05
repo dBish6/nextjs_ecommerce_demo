@@ -13,7 +13,7 @@ import { useState } from "react";
 
 import { clientStripe } from "@customerConstants/stripe";
 import { formatCurrency } from "@utils/formatters";
-import { userOrderExists } from "@actions/orders";
+import { userOrderExists } from "@customerActions/orders";
 
 import { PurchaseProductCard } from "@components/ProductCard";
 import {
@@ -72,7 +72,7 @@ const Form: React.FC<{ productId: string; price_cents: number }> = ({
       const exists = await userOrderExists(email, productId);
       if (exists) {
         return setErrorMessage(
-          `You already purchased this product! View "My Order" to download it.`
+          `You already purchased this product! View "My Orders" to download it.`
         );
       }
 
