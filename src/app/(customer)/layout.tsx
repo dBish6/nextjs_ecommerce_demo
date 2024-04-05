@@ -1,6 +1,6 @@
 import Nav, { NavLink } from "@components/partials/Nav";
 
-const layout: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
+const Layout: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
   return (
     <>
       <Nav>
@@ -13,4 +13,4 @@ const layout: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
   );
 };
 
-export default layout;
+export default Layout;

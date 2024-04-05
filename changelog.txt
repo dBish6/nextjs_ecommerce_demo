@@ -1,0 +1,3 @@
+v1.0.1
+minor:
+- Added 404 page.
