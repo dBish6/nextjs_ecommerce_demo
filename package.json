@@ -15,7 +15,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "vercel-build": "prisma generate && prisma migrate dev && next build",
+    "vercel-build": "prisma migrate dev && next build",
     "lint": "next lint",
     "clean": "rm -rf node_modules"
   },
