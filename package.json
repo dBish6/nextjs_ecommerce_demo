@@ -13,8 +13,9 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "prisma generate && next build",
+    "build": "next build",
     "start": "next start",
+    "vercel-build": "npx prisma generate --data-proxy && next build",
     "lint": "next lint",
     "clean": "rm -rf node_modules"
   },
