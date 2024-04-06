@@ -3,7 +3,7 @@
   "version": "1.0.1",
   "private": true,
   "author": "David Bishop",
-  "description": "",
+  "description": "A demo project of a Next.js e-commerce SaaS, ideal for use as starter building blocks.",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dBish6/nextjs_ecommerce_demo"
@@ -13,7 +13,7 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
     "clean": "rm -rf node_modules"
