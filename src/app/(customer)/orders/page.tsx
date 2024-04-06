@@ -24,7 +24,7 @@ const OrdersPage: React.FC = () => {
         <CardHeader>
           <CardTitle>My Orders</CardTitle>
           <CardDescription>
-            Enter your email address and we'll send an email to you with your
+            Enter your email address and we will send an email to you with your
             order history and download links.
           </CardDescription>
         </CardHeader>
