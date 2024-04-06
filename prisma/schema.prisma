@@ -3,12 +3,13 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../"
+  // output   = "../"
 }
 
 datasource db {
   provider = "sqlite"
-  url      = env("DATABASE_URL")
+  // url      = env("DATABASE_URL")
+  url      = "file:./src/dev.db"
 }
 
 model Product {
