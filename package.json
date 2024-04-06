@@ -15,7 +15,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "vercel-build": "NODE_ENV=development prisma migrate dev && NODE_ENV=production next build",
+    "vercel-build": "prisma migrate dev && next build && cp -r prisma ./.next",
     "lint": "next lint",
     "clean": "rm -rf node_modules"
   },
