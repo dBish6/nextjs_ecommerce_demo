@@ -12,7 +12,7 @@ export const GET = async (
     where: { id },
     select: { name: true, file_path: true },
   });
-  if (product == null) return notFound;
+  if (product == null) return notFound();
 
   const [{ size }, file] = await Promise.all([
       fs.stat(product.file_path),
