@@ -7,9 +7,9 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  // url      = env("DATABASE_URL")
-  url      = "file:./src/dev.db"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  // url      = "file:./src/dev.db"
   // url      = "file:../src/dev.db"
 }
 
@@ -27,7 +27,6 @@ model Product {
   downloadVerifications DownloadVerification[]
 }
 
-// TODO: Add auth.
 model User {
   id         String   @id @default(uuid())
   email      String   @unique

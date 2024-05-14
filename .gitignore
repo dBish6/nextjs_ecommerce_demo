@@ -35,10 +35,12 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# prisma
+migration_lock
+/prisma/migrations/*
+
 .vscode
 todo
 .env*
 /products
 /public/products
-
-dev.db
